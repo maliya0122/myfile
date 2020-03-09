@@ -153,15 +153,13 @@ methods: {
 父元素 >>>  子元素
 ```
 
-### 2.3 v-model的使用
+### 2.3 v-model的使用以及原理
 
-实现双向绑定，应用在表单元素；主要是value值；
+实现双向绑定，应用在表单元素；主要是value值；在input，select，文本域中配合value使用；
 
-在input，select，文本域中配合value使用；
+原理：v-bind，绑定属性值message；展示data里面的message；
 
-### 2.4 标签绑定事件
-
-![image-20200205190254506](C:\Users\chen\AppData\Roaming\Typora\typora-user-images\image-20200205190254506.png)
+​			v-on，绑定input事件，把输入的值，赋值给message；event.target.value
 
 ### 2.5 vue-loader的用途
 
@@ -169,7 +167,11 @@ methods: {
 
 ### 2.6 NextTick
 
-说明：$nextTick是在下次DOM更新循环结束之后执行延迟回调，在修改数据之后，使用$nextTick，则可以在回调中获取更新后的DOM。
+
+
+
+
+
 
 ## 3.生命周期
 
@@ -178,6 +180,8 @@ methods: {
 比如：created相当于刚出生这个阶段，mounted相当于上学阶段；
 
 这个阶段内，可以在里面写自己的回调函数；当vue实例走到某个阶段，就会执行里面的函数；
+
+![image-20200228184232744](C:\Users\chen\AppData\Roaming\Typora\typora-user-images\image-20200228184232744.png)
 
 ## 4.slot插槽
 
@@ -437,16 +441,27 @@ const Foo = () => import('../Foo.vue')
 
 this.$route.params.abc使用数据
 
+```js
+ this.$router.push({ 
+     name: 'news', 
+     params: { userId: 123 }
+ })
+this.$router.push("/detail/" + this.goodsitem.iid);
+使用：{{this.$route.params.userId}}
+```
+
 2.使用query传递
 
 ```javascript
 this.$router.push({
     path:'/home',
-    query:{
-        name:'123'
-    }
+    query:{ name:'123'}
 })
+使用：{{this.$route.query.userId}}
 ```
+
+1.命名路由搭配params，刷新页面参数会丢失
+2.查询参数搭配query，刷新页面数据不会丢失
 
 #### 5.8 导航守卫
 

@@ -29,11 +29,34 @@ git commit -m 'first commit'
 
 在任务栏目，serve选项进行运行，就可以运行项目了；
 
+```js
+顺序：
+1.先打开php软件，启动mysql服务
+2.在后台api_serve文件夹下，运行：node .\app.js
+3.在backend文件夹下，编译，运行：npm run serve
+编译好：http://localhost:8080/
+
+
+```
+
 #### 1.2 后台环境
 
 1.安装mysql数据库
 
 phpStudy软件，导入mysql文件；有很多个；
+
+注意：phpstudy创建的数据库，密码是root，用户名是root；
+
+```js
+"db_config" : {
+    "protocol" : "mysql",
+    "host" : "127.0.0.1",
+    "database" : "mydb",
+    "user" : "root",
+    "password" : "root",
+    "port" : 3306
+}
+```
 
 2.vue_api_server后台环境
 
@@ -71,6 +94,10 @@ const routes = [
 在router里面配置模式，去掉#
 mode: 'history'
 ```
+
+登录：
+
+在乐淘的后台管理系统中，登录校验，跳转到哪个页面的时候，会发送请求，然后根据后台返回的值，比如400，那就是未登录，那就强制跳转到登录页面；登录成功以后，再跳转到原先的页面；returnURL记录原先的地址；
 
 #### 3.login页面的样式
 
@@ -135,7 +162,7 @@ router.beforeEach(( to,from,next )=>{
 
 清空token：window.sessionStorage.clear()
 
-跳转到登录页面，还是用 this.$router.push('/login');
+跳转到登录页面，还是用 **this.$router.push('/login');**
 
 #### 6. eslint格式化工具
 
@@ -185,25 +212,30 @@ Vue.prototype.$http = axios
 
 //请求menulist数据
 //获取菜单数据
-    async getMenuList(){
-      const { data: result } = await this.$http.get('/menus');
-      //console.log(result);
-      if(result.meta.status !== 200 ) return this.$message.error(result.meta.msg)
-      this.MenuList = result.data;
-    }
+async getMenuList(){
+  const { data: result } = await this.$http.get('/menus');
+  //console.log(result);
+  if(result.meta.status !== 200 ) return this.$message.error(result.meta.msg)
+  this.MenuList = result.data;
+}
 ```
 
 3.点击菜单栏，index是一样的，所以就会全部一起动。index传入的是str字符串，item.id是num，加上一个空格就把num转换成str       :index="item.id + ''"
 
 4.展开收齐按钮，通过isCollapse属性来控制菜单item的显示/隐藏；
 
-5.点击item，进行路由跳转
+##### 1.1.点击item，进行路由跳转
 
   supermall项目的路由跳转，是通过path属性跳转，push；
 
-  这个后台项目是通过开启菜单的router属性，通过index来跳转的；
+  后台项目是通过开启菜单的router属性，通过index来跳转的；
 
-6.激活状态：有问题；以后再改；
+```js
+<el-menu router>   //开启路由，以 index 作为 path 进行路由跳转
+保存每一个子菜单的path，window.sessionStorage.setItem('activepath',activepath)
+
+:index="'/'+subitem.path"
+```
 
 #### 2.用户页面
 
@@ -253,7 +285,15 @@ var checkEmail = (rule, value, callback) => {
 
 ### 4.权限管理
 
-#### 1.table展开，权限删除
+#### 1.角色列表：表单展开
+
+使用的组件：table：展开行属性，下面的结构使用的混合布局；布局完成后，再加上标签tag；
+
+![image-20200228202226125](C:\Users\chen\AppData\Roaming\Typora\typora-user-images\image-20200228202226125.png)
+
+页面和样式完成后，就是事件，删除单个权限；
+
+#### 2.删除单个权限
 
 table展开，使用的是table的属性；
 
@@ -263,33 +303,131 @@ table展开，使用的是table的属性；
 
 返回值data是最新的权限列表，**将data赋值给scope.row.children，那么数据就会自动刷新；而不用刷新页面；**
 
-#### 2.角色下面对应权限的展示
+#### 3.权限分配：树形结构
 
-采用的是树形结构，数据也是tree类型；
+树形结构撑开，首先要展示所有的权限；其次还要展示 已存在的权限；
 
-默认展示对应的权限：arr类型，需要递归调用
+点击权限以后，确定，发送请求；
 
-```javascript
-//递归获取角色下的第三层权限
-getdefaultRights(node,arr){
-  //如果没有children了，说明是最后一层
-  if(!node.children){
-    return arr.push(node.id)
-  }else{
-    //有下一层就继续进行递归调用，直到没有children
-    node.children.forEach( value => {
-      this.getdefaultRights(value,arr)
-    })
-  } 
+### 5.商品管理
+
+#### 5.1 添加商品
+
+步骤条组件，图片上传，vue-quilt-edit富文本插件；
+
+#### 5.2 商品分类
+
+商品分类下的table展开，使用的是 vue-table-with-tree插件；
+
+![image-20200228202757099](C:\Users\chen\AppData\Roaming\Typora\typora-user-images\image-20200228202757099.png)
+
+#### 5.3 订单管理
+
+级联选择器的使用：
+
+````js
+<el-cascader expand-trigger="hover" :options="cateList" :props="props" v-model="cateInfo" @change="handleChange"></el-cascader>
+
+options:数据；prop：配置选项；v-model：选择之后的数据显示；change：事件；
+props:{
+    value: 'cat_id',
+    label: 'cat_name',
+    children: 'children'
+  }
+````
+
+使用axios的时候，使用``来进行url拼接，里面的变量参数使用${} 来进行拼接;
+
+```js
+url:categories/:id/attributes
+
+`categories/${this.cateid}/attributes`
 ```
 
-#### 3.商品参数页面
+axios发送get请求，post请求
 
-1.不允许页面跳转：return false
+````js
+this.$http.get('/goods', { params: this.queryinfo }).then(res=>{})
+//发送get请求的时候，传递参数，使用的是params，因为参数要加在url上
+this.$http.post('users', data).then(res => {})
+//post,put这些参数，是放在d请求体里面，所以直接放在data里面
+````
 
-### 5.优化与编译
+表单校验：
 
-#### 5.1 优化
+```js
+<el-form ref="adduserFormRef" :model="adduserForm" :rules="adduserFormrules">
+//rule校验
+adduserFormrules: {
+        username: [
+          { required: true, message: '请输入用户名', trigger: 'blur' },
+          { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+        ],
+//确定事件，需要对表单进行校验  
+adduser() {
+  this.$refs.adduserFormRef.validate(valid => {
+    if (!valid) {
+      return
+    }
+}
+```
+
+#### 5.4 数据统计
+
+echarts的使用；配置options选项；
+
+使用lodash插件进行合并数据；
+
+#### 5.5 商品参数
+
+1.联动效果，不需要
+
+解决方法：在获取res.data之后，就加上input属性；设置成null；
+
+（以前将这个input设置成全局的时候，就一起在变化，下面的参数也被影响了）
+
+那么在使用v-for循环之后，每一项数据就有了自己单独的input值；
+
+```js
+//把attr_vals切割成数组
+result.data.forEach(item => {
+  item.attr_vals = item.attr_vals ? item.attr_vals.split(' ') : []
+  // 控制文本框的显示与隐藏
+  item.inputVisible = false
+  // 文本框中输入的值
+  item.inputValue = ''
+})
+```
+
+使用的时候，template：slot-scope进行使用；每一行的数据都是 scope.row进行获取数据；
+
+
+
+2.标签页切换这个模块，很难
+
+做的有点晕；难点：要给每行的数据都加上属性值；不然，修改第一行的数据，第二行的数据也跟着修改了；
+
+获取参数，row进行获取；
+
+
+
+------
+
+### 6.优化与上线
+
+优化策略：
+
+1.生成打包报告
+
+2.第三方库启用CDN
+
+3.Ele UI组件按需加载
+
+4.路由懒加载
+
+5.首页内容定制
+
+#### 6.1 进度条展示
 
 加上nprogress插件，进行进度条的展示
 
@@ -313,97 +451,76 @@ axios.interceptors.response.use(config => {
 })
 ```
 
-#### 5.2 serve命令时警告
+#### 6.2 解决eslint报错
 
-一般是eslint检验的报错
+1.i3定义了没有使用；scopes也是；
 
-#### 5.3 build命令
+2.elint和代码格式化工具prettierrc冲突：格式化就会自动换行；
 
-发布阶段：不能有console.log命令，使用插件：babel-plugin-tranform-remove-console，在文件中进行配置
+```js
+"printWidth":200   //默认是80就换行了
+```
 
-开发阶段：有console.log命令
+3.不能使用attr_id命名，要使用驼峰命名attId
 
-在文件里配置就行了；babel.config.js
+#### 6.3 build编译
 
-```javascript
-// 这是项目发布阶段需要用到的 babel 插件
+1.在build阶段把所有的console.log移除掉
+
+babel-plugin-transform-remove-console插件，开发时依赖
+
+```js
+在babel.config.js中，进行配置
+在"plugins" 里面，加上   'transform-remove-console'
+```
+
+2.开发阶段，console.log还是可以使用
+
+根据上面的配置，会全部移除的，开发环境的也打印不出来了；
+
+```js
+//项目发布阶段要用到的babel插件
 const prodPlugins = []
-if (process.env.NODE_ENV === 'production') {
+if(process.env.NODE_ENV === 'production'){
   prodPlugins.push('transform-remove-console')
 }
 
+在"plugins" 里面，加上   ...prodPlugins
+```
+
+#### 6.4优化build下的文件体积
+
+1.自定义webpack的默认配置，创建vue.config.js
+
+2.为开发模式与发布模式指定不同的打包入口
+
+在vue.config.js里面进行配置；开发模式：src/main-dev.js    发布模式：src/main-prod.js
+
+3.通过externals加载外部的CDN资源
+
+默认情况下，会把所有的依赖包全部打包在一个chrunk.js文件中，导致体积很大；所以使用外部CDN资源，当配置了的时候，window会自动的去全局查找和使用；
+
+步骤：先在vue.config.js中的prod环境下配置；然后在index.html中 使用那些CDN链接；
+
+4.优化ele-ui的打包
+
+步骤：1.先在index.html中，使用ele的css和js链接；
+
+​			2.在main-prod.js中注释ele.js的引入；
+
+```js
+//vue.config.js文件的配置
 module.exports = {
-  presets: ['@vue/app'],
-  plugins: [
-    [
-      'component',
-      {
-        libraryName: 'element-ui',
-        styleLibraryName: 'theme-chalk'
-      }
-    ],
-    // 发布产品时候的插件数组
-    ...prodPlugins,
-    '@babel/plugin-syntax-dynamic-import'
-  ]
-}
-```
-
-#### 5.4 打包报告
-
-1.命令行参数生成报告
-
-2.UI面板生成报告：看到项目中存在的问题；依赖项体积太大；
-
-#### 5.5 vue.config.js文件
-
-需要修改webpack默认配置，
-
-```javascript
-module.exports = {}
-```
-
-#### 5.6 配置不同的打包入口
-
-vue项目的开发模式和发布模式，共用一个打包的入口文件：src/main.js，
-
-开发模式：src/main-dev.js
-
-发布模式：src/main-prod.js
-
-chainWebpack自定义打包入口：
-
-​	1.修改main.js文件，修改文件名
-
-​	2.在vue.config.js文件中修改配置
-
-```javascript
-chainWebpack: config => {
-    // 发布模式
+  chainWebpack: config => {
+    //发布模式
     config.when(process.env.NODE_ENV === 'production', config => {
-      config.entry('app').clear().add('./src/main-prod.js')
-    })
-    
-    // 开发模式
-    config.when(process.env.NODE_ENV === 'development', config => {
-      config.entry('app').clear().add('./src/main-dev.js')
-    })
-```
+      config
+        .entry('app')
+        .clear()
+        .add('./src/main-prod.js')
 
-#### 5.7 通过externals加载外部CDN资源
-
-通过import语法导入的第三方依赖包，最终会被打包合并到同一个文件中，从而导致打包成功后，单文件体积过大的问题；
-
-解决：通过webpack的externals节点，配置加载外部的CDN资源；凡是声明在externals中的第三方依赖包，都不会被打包；
-
-步骤：1.在vue.config.js里面，加上配置项
-
-​			2.在index.html文件，导入css样式表
-
-​			3.在index.html文件，导入js文件
-
-```javascript
-config.set('externals', {
+      //加载外部资源
+      config.set('externals', {
         vue: 'Vue',
         'vue-router': 'VueRouter',
         axios: 'axios',
@@ -412,13 +529,82 @@ config.set('externals', {
         nprogress: 'NProgress',
         'vue-quill-editor': 'VueQuillEditor'
       })
+
+    })
+
+    //开发模式
+    config.when(process.env.NODE_ENV === 'development', config => {
+      config
+        .entry('app')
+        .clear()
+        .add('./src/main-dev.js')
+    })
+  }
+}
 ```
 
+#### 6.5 首页内容定制
 
+dev环境，不显示CDN的标签，标题有dev；prod环境，显示CDN的标签，标题没有dev
 
-课程地址：https://www.bilibili.com/video/av74592164
+主要是在index.html里面，进行配置；显示与否；
 
-以后有时间了再看吧，不想做了
+其次，要在vue.config.js文件中，进行配置；
 
-demo：http://119.3.183.37/#/login
+```js
+config.plugin('html').tap(args => {
+    args[0].isProd = true
+    return args
+  })
+```
 
+#### 6.6 路由懒加载
+
+步骤：
+
+1.安装babel/plugin-syntax-dynamic-import包；
+
+2.在babel.config.js中配置文件声明该插件；
+
+3.将路由改为按需加载；
+
+这是把三个js文件打包到一个文件下
+
+```js
+//import Login from '../components/Login.vue'
+const Login = () => import(/* webpackChunkName: "Login_Home_Welcome" */ '../components/Login.vue')
+
+//import Home from '../components/Home.vue'
+const Home = () => import(/* webpackChunkName: "Login_Home_Welcome" */ '../components/Home.vue')
+
+//import Welcome from '../components/Welcome.vue'
+const Welcome = () => import(/* webpackChunkName: "Login_Home_Welcome" */ '../components/Welcome.vue')
+```
+
+#### 6.7 上线配置
+
+1.通过node创建web服务器
+
+把dist文件夹复制一份到文件夹下，然后创建app.js，进行配置；
+
+```js
+const express = require('express')
+const compression = require('compression')
+const app = express()
+
+app.use(compression())
+//托管静态资源
+app.use(express.static('./dist'))
+
+app.listen(5001,()=>{
+    console.log('server running ....')
+})
+```
+
+2.开启文件的Gzip网络传输压缩：compression
+
+需要下载compression插件，然后要配置；
+
+3.配置https服务
+
+后台配置的；了解既可；

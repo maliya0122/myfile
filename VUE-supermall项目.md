@@ -1,4 +1,4 @@
-### supermall项目
+### vue-supermall项目
 
 ### 0. 复习项目
 
