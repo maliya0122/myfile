@@ -210,7 +210,35 @@ toast弹窗，老师自己封装的；好复杂；
 
 vue中数据更新，页面也随之更新；不是理所当然的，里面的实现是很复杂的；
 
-原理：太复杂了，没看
+### 4.分类页面
+
+使用的是左右滑动，页面布局：
+
+```js
+最大的盒子：category
+顶部导航栏：NavBar
+内容区域：content
+样式：使用的是绝对定位
+.content{
+  position: absolute;
+  top: 44px;
+  bottom: 49px;
+  left: 0;
+  right: 0;
+  overflow: hidden;
+  display: flex;
+  flex-direction: row;
+}
+content里面写上两个scroll组件，每个组件加上left，right；
+.left{
+  flex:3;
+  height: 100%;
+}
+.right{
+  flex:7;
+  height: 100%;
+}
+```
 
 
 

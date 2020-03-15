@@ -312,6 +312,7 @@ methods: {
         </slot>
     </div>
 </template>
+
 //父组件：使用子组件的数据，只是改下样式
 <cpn>
     <template slot-scope="scope">   	//父组件使用slot-scope属性可以访问子组件
@@ -323,7 +324,7 @@ methods: {
 </cpn>
 ```
 
-父组件使用slot-scope属性可以访问子组件，为子组件取的别名是scope，上面有data属性，可以访问到colors数据；
+父组件使用slot-scope属性可以访问子组件，为子组件取的别名是scope，上面有data属性，可以访问到colors数据；（ele就是这样使用的，slot-scope）
 
 
 
