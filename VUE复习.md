@@ -16,8 +16,6 @@
 
 **Module**：模块，里面可以划分私有vuex；
 
-![image-20200203200929159](C:\Users\chen\AppData\Roaming\Typora\typora-user-images\image-20200203200929159.png)
-
 ```javascript
 //mutations：里面的方法，使用state的变量
 addCart(state,payload){
@@ -167,9 +165,7 @@ methods: {
 
 ### 2.6 NextTick
 
-
-
-
+在更新数据以后，马上获取最新的DOM并对其进行操作；
 
 
 

@@ -35,8 +35,6 @@ git commit -m 'first commit'
 2.在后台api_serve文件夹下，运行：node .\app.js
 3.在backend文件夹下，编译，运行：npm run serve
 编译好：http://localhost:8080/
-
-
 ```
 
 #### 1.2 后台环境

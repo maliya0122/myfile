@@ -45,7 +45,7 @@ npm run serve
 
 难点：要获取对应组件的offsetTop，所以要等图片加载完，再获取；
 
-![image-20200203162544488](C:\Users\chen\AppData\Roaming\Typora\typora-user-images\image-20200203162544488.png)
+![](img/image-20200119105007672.png)
 
 使用this.$refs.scroll.scrollTop方法，根据距离进行页面跳转；（scroll里面封装的方法名可能不一致）
 
@@ -90,7 +90,7 @@ this.$store.state存储数据，mutations主要是更改，actions进行复杂�
 
 ### 2.购物车页面
 
-![image-20200205134336653](C:\Users\chen\AppData\Roaming\Typora\typora-user-images\image-20200205134336653.png)
+![](img/image-20200119105020441.png)
 
 #### 2.1 itemInfo数据
 
@@ -206,7 +206,7 @@ toast弹窗，老师自己封装的；好复杂；
 
 ### 3.vue的响应式原理
 
-![image-20200205164344169](C:\Users\chen\AppData\Roaming\Typora\typora-user-images\image-20200205164344169.png)
+![](img/image-20200118215902721.png)
 
 vue中数据更新，页面也随之更新；不是理所当然的，里面的实现是很复杂的；
 

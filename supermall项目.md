@@ -9,7 +9,7 @@ typora-copy-images-to: mdimg
 
 1.脚手架3搭建项目：
 
-![image-20200113220733912](/image-20200113220733912.png)
+![](/../img/image-20200113220733912.png)
 
 2.github的使用
 
@@ -200,6 +200,10 @@ position: sticky;
 
 top:44px;
 
+```js
+:class="{item, active: index === currentIndex }"      //三元运算符
+```
+
 #### 4.商品模块
 
 ##### 4.1 goods数据的模型设计：
@@ -288,8 +292,6 @@ mounted() {
   }
 ```
 
-
-
 1.BackTop组件：使用fixed定位进行，给组件绑定原生事件：@click.native="hehe"
 
 2.scroll使用ref="scroll"，可以获取子组件，访问子组件，方法，属性，数据
@@ -322,7 +324,7 @@ this.$refs.scroll.refresh();//重新刷新
 图片加载完，原生js调用的是onload方法，vue调用的是load方法，加载完成，就发送这个事件给总线；
 
 ```js
-总线：不同的页面都可以接收/发送事件，
+总线：不同的页面都可以接收/发送事件
 但是要先在main.js里面创建：Vue.prototype.$bus=new Vue()
 this.$bus.$emit("imgload"，参数)  //发送事件
 this.$bus.$on("imgload",回调函数)  //接收事件
@@ -345,8 +347,6 @@ mounted时期，进行图片的加载回调，不然就会不同步；因为scro
 问题：由于使用了Better-Scroll导致吸顶效果失效了；
 
 解决思路：采用offsetTop，当获取到TabControl的offsetTop高度的时候，当滑动的高度大于这个offsetTop时，就固定TabControl；
-
-
 
 1.获取offsetTop数据：（给tabcontrol组件绑定ref）
 
@@ -415,8 +415,6 @@ this.iid = this.$route.params.iid;
 > 问题：每次进来数据没有自动更新，因为加上了keep-alive，没有销毁；
 >
 > 解决：加上exclude；
-
-
 
 2.3 商品信息数据
 
