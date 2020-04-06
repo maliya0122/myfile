@@ -287,7 +287,7 @@ var checkEmail = (rule, value, callback) => {
 
 使用的组件：table：展开行属性，下面的结构使用的混合布局；布局完成后，再加上标签tag；
 
-![image-20200228202226125](C:\Users\chen\AppData\Roaming\Typora\typora-user-images\image-20200228202226125.png)
+![image-20200317161706883](img/image-20200317161706883.png)
 
 页面和样式完成后，就是事件，删除单个权限；
 
@@ -317,7 +317,7 @@ table展开，使用的是table的属性；
 
 商品分类下的table展开，使用的是 vue-table-with-tree插件；
 
-![image-20200228202757099](C:\Users\chen\AppData\Roaming\Typora\typora-user-images\image-20200228202757099.png)
+![image-20200317161734564](img/image-20200317161734564.png)
 
 #### 5.3 订单管理
 
@@ -399,15 +399,11 @@ result.data.forEach(item => {
 
 使用的时候，template：slot-scope进行使用；每一行的数据都是 scope.row进行获取数据；
 
-
-
 2.标签页切换这个模块，很难
 
 做的有点晕；难点：要给每行的数据都加上属性值；不然，修改第一行的数据，第二行的数据也跟着修改了；
 
 获取参数，row进行获取；
-
-
 
 ------
 

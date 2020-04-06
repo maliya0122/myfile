@@ -1,4 +1,4 @@
-## webpack
+## webpack3.6.0
 
 ### 1.定义
 
@@ -25,7 +25,7 @@ npm install webpack@3.6.0 --save-dev   //项目本地安装
 webpack ./src/main.js ./dist/bundle.js     //用webpack打包main.js文件成 bundle.js
 ```
 
-![image-20200207194734595](C:\Users\chen\AppData\Roaming\Typora\typora-user-images\image-20200207194734595.png)
+![image-20200405160620593](img/image-20200405160620593.png)
 
 dist文件夹：主要是放置编译后的文件；
 
@@ -62,11 +62,11 @@ npm run build 	//先去本地项目找webpack，再去全局找webpack
 //配置信息webpack.config.js
 const path = require('path')
 module.exports = {
-    //定义入口和出口
-    entry:'./src/main.js',
+    mode:'development',//模式：production  development
+    entry:'./src/main.js',//定义打包入口文件
     output:{
-        path:path.resolve(__dirname,'dist'),//绝对路径
-        filename:'bundle.js',
+        path:path.resolve(__dirname,'dist'),	//绝对路径
+        filename:'bundle.js',	//打包后的文件名
         publicPath:'dist/'      //图片打包的路径
     }
 }
@@ -180,4 +180,6 @@ el和template的区别：加载的时候，会把el的内容用template替换掉
 在main.js中，直接导入app.vue就好；但是webpack不能识别vue文件，所以需要下载vue-loader，vue-template-compiler，并进行配置；
 
 
+
+------
 

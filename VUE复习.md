@@ -117,13 +117,15 @@ methods: {
         doneCount: 'doneTodosCount'
     });//取别名使用
  }
+
+直接通过this.$store.getters和this.$store.state来访问模块中的getter和state。
+直接通过this.$store.commit('mutationA',data)提交模块中的mutation。
+直接通过this.$store.dispatch('actionA,data')提交模块中的action。
 ```
 
 ## 2.面试题
 
 ### 2.1 v-if和v-show
-
-![image-20200205184206527](C:\Users\chen\AppData\Roaming\Typora\typora-user-images\image-20200205184206527.png)
 
 应用：需要频繁切换，那就用v-show；条件判断，就用v-if；
 
@@ -167,8 +169,6 @@ methods: {
 
 在更新数据以后，马上获取最新的DOM并对其进行操作；
 
-
-
 ## 3.生命周期
 
 定义：相当于vue实例的每一个阶段；
@@ -176,8 +176,6 @@ methods: {
 比如：created相当于刚出生这个阶段，mounted相当于上学阶段；
 
 这个阶段内，可以在里面写自己的回调函数；当vue实例走到某个阶段，就会执行里面的函数；
-
-![image-20200228184232744](C:\Users\chen\AppData\Roaming\Typora\typora-user-images\image-20200228184232744.png)
 
 ## 4.slot插槽
 
@@ -499,5 +497,25 @@ const Foo = {
 <keep-alive>
     <router-view></router-view>
 </keep-alive>
+```
+
+### 6.class和style
+
+```js
+<div class="test" :class="{active:actived,'active-click': clicked&&actived}"></div>
+<div :class="classObject"></div>
+```
+
+### 7.过滤器
+
+```js
+filters: {
+            moneyFilter: function(val, ratio) {
+                return Number(val * ratio).toFixed(2);
+            }
+        }
+
+<div><span>{{money | moneyFilter(0.15)}}</span>美元</div>
+还可以v-bind 表达式 上，如：<div :id="rawId | formatId"></div>
 ```
 
