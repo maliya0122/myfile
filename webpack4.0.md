@@ -107,3 +107,27 @@ module: {
 
 ### 6.跨域的配置
 
+本地上webpack-dev-server的端口号是8080，然后自己创建了一个服务，接口是/api/user，端口号是3000，然后需要进行跨域访问；
+
+设置代理：http-proxy
+
+```js
+devServer:{
+    //1)重写的方式 把请求代理到express服务器上
+    proxy:{  
+        '/api':{
+            target:'http://localhost:3000',
+            pathRewrite:{'/api':''}  
+        }
+    }
+    //2)只想单纯的模拟数据
+    before(app){	//提供的钩子函数
+        app.get('/user',(req,res)=>{
+            res.json({name:'珠峰培训'})
+        })
+    }
+    //3)有服务端，不想用代理来处理，能不能在服务端中启动webpack 端口用服务端端口
+    //在服务端中自己起webpack，中间件：webpack-dev-middleware
+}
+```
+
