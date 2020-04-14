@@ -39,21 +39,33 @@ const path=require('path')
 const JSON5=require('json5')
 
 var strobj = fs.readFileSync(path.join(__dirname,'./userinfo.json5'),'utf-8')
-var obj = JSON5.parse(strobj)	//将字符串转换成obj对象
+var obj = JSON5.parse(strobj)	//将下面的字符串转换成obj对象
 console.log(obj);
+
+
+//userinfo.json5文件里面配置的变量
+{
+    id:"@id()",
+    username:"@cname()",
+    date:"@date()",
+    avatar:"@image('100×100','red','#fff','avatar')",
+    description:"@paragraph()",
+    ip:"@ip()",
+    email:"@email()"
+}
 ```
 
 ### 4.mock和vue-cli结合，devserver结合调用
 
 ```js
-//在vue.config.js里面进行配置devserver
+//在vue.config.js里面进行配置devserver，拦截请求
 module.exports={
     devServer:{
         before:require('./mock/index.js')
     }
 }
 
-//mock/index.js里面配置接口
+//mock/index.js里面配置请求数据的接口：/user/info
 const fs=require('fs')
 const path=require('path')
 const Mock=require('mockjs')
@@ -94,7 +106,7 @@ module.exports = function(app){
 
 ------
 
-### vue-mock原理：
+### vue-mock原理
 
 主要是使用的脚手架，使用webpack-devserver进行拦截请求，浏览器发送请求，被devserver拦截后，然后返回mock数据；
 
@@ -102,11 +114,47 @@ module.exports = function(app){
 
 
 
-### jquery-mock原理：
+### jquery-mock原理
 
 都是在浏览器里面进行操作的，
 
 ![image-20200409202615585](img/image-20200409202615585.png)
 
 ------
+
+### 1.jquery-mock的使用
+
+```js
+//引入文件
+1.jquery：2.2.4版本
+2.mock-min.js：1.0.0版本
+
+//mock.js里面进行配置
+Mock.mock('/user/userinfo','get',{
+    id:"@id()",
+    username:"@cname()",
+    date:"@date()",
+    avatar:"@image('100×100','red','#fff','avatar')",
+    description:"@paragraph()",
+    ip:"@ip()",
+    email:"@email()"
+})
+
+//在index.html里面进行发送ajax请求
+<script>
+    $.ajax({
+        url:'/user/userinfo',
+        dataType:'json',
+        success:(data)=>{
+            console.log(data)
+        }
+    })
+</script>
+```
+
+### 2.移除mock
+
+1.直接注释mock.js即可；
+
+2.加上变量进行判断：mock=true
 
