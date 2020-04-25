@@ -1,11 +1,13 @@
 ## TypeScript
 
-### 1.简介
+### 1.安装与简介
+
+安装：
 
 ```js
-npm install -g typescript
+npm install -g typescript	//全局安装typescript
 tsc index.ts   //解析成js文件
-tsc --init  
+tsc --init  	//生成配置文件
 ```
 
 vscode自动编译ts文件：
@@ -13,6 +15,18 @@ vscode自动编译ts文件：
 1.项目里面：tsc --init，生成配置文件tscconfig.json；
 
 2.点击任务--运行任务，点击**监视**tscconfig.json；
+
+
+
+简介：
+
+typescript就是js的高级写法，相当于less之于css；
+
+体验：强类型，接口，
+
+
+
+
 
 ### 2.数据类型
 
